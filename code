@@ -147,3 +147,26 @@ public static void main(String[] args) {
         // Find nearest neighbor for each test word
         verifyNearestNeighbors(tree, testWords);
     }
+ // Reads the words from a file and returns them as a list of Word objects
+    public static List<Word> readWordsFromFile(String fileName) {
+        List<Word> words = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            int numWords = scanner.nextInt();               // Num of words
+            int dimension = scanner.nextInt();              // Dimension of the word vectors
+
+            // Read each word and its vector
+            while (scanner.hasNext()) {
+                String word = scanner.next();
+                float[] vector = new float[dimension];
+                for (int i = 0; i < dimension; i++) {
+                    vector[i] = scanner.nextFloat();            // Read each dimension of the vector
+                }
+                words.add(new Word(word, vector));              // Add the word to the list
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName);
+            e.printStackTrace();
+        }
+        return words;            // Ret the list of words
+    }
