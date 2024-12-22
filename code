@@ -1,1 +1,15 @@
-code here
+import java.io.*;
+import java.util.*;
+
+public class Kdnn {
+
+  
+    static class Word {
+        String word;       
+        float[] vector;    // The vector that represents the word
+
+        Word(String word, float[] vector) {
+            this.word = word;      
+            this.vector = vector;  
+        }
+    }
