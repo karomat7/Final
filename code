@@ -54,3 +54,32 @@ private Node root;              // Root of the k-d tree
 
             return node;  // Return the node
         }
+public Word findNearN(float[] targetVector) {
+            return findNearNRec(root, targetVector, Double.MAX_VALUE, null);        // Start recursion from the root
+        }
+
+        // Helper method for recursively finding the nearest neighbor
+        private Word findNearNRec(Node node, float[] targetVector, double bestDist, Word bestWord) {
+            if (node == null) {
+                return bestWord;                  // Base case: if node is null, return the best word
+            }
+
+            double dist = calcDist(targetVector, node.word.vector);     // Calculate the distance between target and current node
+            if (dist < bestDist) {
+                bestDist = dist;                                        // Update best distance if a closer neighbor is found
+                bestWord = node.word;                                   // Update best word with current node's word
+            }
+
+            Node nearNode = targetVector[node.dimension] < node.word.vector[node.dimension] ? node.left : node.right;
+            Node farNode = targetVector[node.dimension] < node.word.vector[node.dimension] ? node.right : node.left;
+
+            // Go through the near subtree
+            bestWord = findNearNRec(nearNode, targetVector, bestDist, bestWord);
+
+            // Go through the far subtree (if necessary)
+            if (Math.abs(targetVector[node.dimension] - node.word.vector[node.dimension]) < bestDist) {
+                bestWord = findNearNRec(farNode, targetVector, bestDist, bestWord);
+            }
+
+            return bestWord;        // Return the best word found
+        }
