@@ -113,3 +113,37 @@ public double calcDist(float[] vector1, float[] vector2) {
             return (int) Math.floor(Math.log(numNodes) / Math.log(2)) + 1;          // Calculate the min height
         }
     }
+public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out.println("Usage: java Kdnn <test file> <data file>");
+            return;
+        }
+
+        String testFile = args[0];  
+        String dataFile = args[1];  
+
+        List<Word> words = readWordsFromFile(dataFile);         // Read the words from the data file
+        List<Word> testWords = readWordsFromFile(testFile);     // Read the test words
+
+        KDTree tree = new KDTree();         // Create a new k-d tree
+        tree.buildTree(words, 0);           // Build the tree with the given words
+
+        // Print tree height and minheight comparison
+        int treeHeight = tree.getH();
+        int minH = tree.getMinH(words.size());
+        System.out.println("Tree Height: " + treeHeight);
+        System.out.println("Minimal Height: " + minH);
+
+        // Check if the k-d tree is balanced
+        if (treeHeight <= minH) {
+            System.out.println("The k-d tree is well balanced.");
+        } else {
+            System.out.println("The k-d tree is not perfectly balanced.");
+        }
+
+        // Check via testing that the k-d tree holds all points from the test file
+        verifyTestFile(tree, testWords);
+
+        // Find nearest neighbor for each test word
+        verifyNearestNeighbors(tree, testWords);
+    }
