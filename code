@@ -1,3 +1,7 @@
+//TO RUN THE CODE USE:: 
+//javac Kdnn.java
+//java Kdnn test.1 dat.1 
+
 import java.io.*;
 import java.util.*;
 
