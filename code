@@ -83,3 +83,33 @@ public Word findNearN(float[] targetVector) {
 
             return bestWord;        // Return the best word found
         }
+public double calcDist(float[] vector1, float[] vector2) {
+            double sum = 0;
+            for (int i = 0; i < vector1.length; i++) {
+                sum += Math.pow(vector1[i] - vector2[i], 2);  // Sum of squared differences
+            }
+            return Math.sqrt(sum);                            // Return the square root of the sum 
+                    }
+
+        // Get Height of the k-d tree
+        public int getH() {
+            return getHRec(root);  // Start the recursion from the root
+        }
+
+        // Helper method for calculating tree height recursively
+        private int getHRec(Node node) {
+            if (node == null) {
+                return 0;               // If the node is null, the height is 0
+            }
+
+            int leftHeight = getHRec(node.left);        // Get the height of the left subtree
+            int rightHeight = getHRec(node.right);      // Get the height of the right subtree
+
+            return Math.max(leftHeight, rightHeight) + 1;       // Return the larger height + 1
+        }
+
+        // Get the min height of a perfectly balanced k-d tree
+        public int getMinH(int numNodes) {
+            return (int) Math.floor(Math.log(numNodes) / Math.log(2)) + 1;          // Calculate the min height
+        }
+    }
