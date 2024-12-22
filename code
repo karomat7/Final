@@ -27,3 +27,30 @@ public class Kdnn {
                 this.dimension = dimension;         // Set the dimension for splitting
             }
         }
+private Node root;              // Root of the k-d tree
+        private int dimensions;         // Number of dimensions of the vectors
+
+        // Builds the k-d tree by recursively dividing the data
+        public void buildTree(List<Word> words, int depth) {
+            dimensions = words.get(0).vector.length;            // Set the number of dimensions
+            root = buildTreeRecursive(words, depth);            // Start building from root
+        }
+
+        // Helper method to recursively build the tree
+        private Node buildTreeRecursive(List<Word> words, int depth) {
+            if (words.isEmpty()) {
+                return null;            // Base case: if the list is empty, return null
+            }
+
+            int axis = depth % dimensions;         
+            words.sort(Comparator.comparingDouble(w -> w.vector[axis]));  // Sort words by chosen dimension
+
+            int medianIndex = words.size() / 2;         // Find the middle word
+            Word medianWord = words.get(medianIndex);   // Get the median word
+
+            Node node = new Node(medianWord, axis);                                                     // Create a new node with the median word
+            node.left = buildTreeRecursive(words.subList(0, medianIndex), depth + 1);                   // Build the left subtree
+            node.right = buildTreeRecursive(words.subList(medianIndex + 1, words.size()), depth + 1);   // Build the right subtree
+
+            return node;  // Return the node
+        }
