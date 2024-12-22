@@ -170,3 +170,27 @@ public static void main(String[] args) {
         }
         return words;            // Ret the list of words
     }
+// Checks if words from the test file are in the k-d tree
+    public static void verifyTestFile(KDTree tree, List<Word> testWords) {
+        System.out.println("Verifying if words from test file are in the k-d tree:");
+        for (Word testWord : testWords) {
+            Word nearest = tree.findNearN(testWord.vector);                                     // Find nearest word in the tree
+            if (nearest != null) {
+                System.out.println("Found: " + testWord.word + " nearest " + nearest.word);     // Print the nearest word
+            } else {
+                System.out.println("Word not found in the tree: " + testWord.word);             // Print if word not found
+            }
+        }
+    }
+
+    // Finds the nearest neighbors for each test word
+    public static void verifyNearestNeighbors(KDTree tree, List<Word> testWords) {
+        int index = 0;
+        for (Word testWord : testWords) { 
+            Word nearest = tree.findNearN(testWord.vector);                                     // Find the nearest neighbor
+            double distance = tree.calcDist(testWord.vector, nearest.vector);                   // Calculate the distance
+            System.out.println("testword_" + index + ": nearest = " + nearest.word + " distance = " + distance);
+            index++;
+        }
+    }
+}
