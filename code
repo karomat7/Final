@@ -13,3 +13,17 @@ public class Kdnn {
             this.vector = vector;  
         }
     }
+ static class KDTree {
+        
+        // Node class represents each point (word and its vector) in the tree
+        static class Node {
+            Word word;         
+            Node left;          
+            Node right;         
+            int dimension;      
+
+            Node(Word word, int dimension) {
+                this.word = word;                   // Set the word at the node
+                this.dimension = dimension;         // Set the dimension for splitting
+            }
+        }
